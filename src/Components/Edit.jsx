@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, IconButton, TextField } from '@mui/material';
+import { Box, Button, ButtonGroup, IconButton, TextField } from '@mui/material';
 import React, { Component } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -9,14 +9,14 @@ class Edit extends Component {
 
     render() {
         return (
-            <div>
+            <Box sx={{ m: this.props.isMobile ? 1 : 3 }}>
 
                 <div>
 
                     <Button
                         variant="contained"
                         component="label"
-                        sx={{ my: 2 }}
+                        sx={{ my: this.props.isMobile ? 1 : 2 }}
                         disableElevation
                     >
                         Upload Image
@@ -33,7 +33,8 @@ class Edit extends Component {
 
                 <TextField
                     // fullWidth
-                    sx={{ width: "60ch" }}
+                    size={this.props.isMobile ? 'small' : 'medium'}
+                    sx={{ width: this.props.isMobile ? 'unset' : '60ch' }}
                     label={"Apology letter to:"}
                     margin="normal"
                     value={this.props.title}
@@ -42,58 +43,69 @@ class Edit extends Component {
 
                 <h3>Reasons for behaviour:</h3>
 
-                {this.props.entries.map((item, index) => (
-                    <>
+                {
+                    this.props.entries.map((item, index) => (
+                        <>
 
-                        <TextField
-                            // fullWidth
-                            name={"" + index}
-                            sx={{ width: "60ch" }}
-                            label={"Checkbox " + (index + 1)}
-                            key={"checkbox-" + index}
-                            margin="normal"
-                            value={item}
-                            onChange={this.props.handleChange}
-                        />
+                            <TextField
+                                // fullWidth
+                                size={this.props.isMobile ? 'small' : 'medium'}
+                                name={"" + index}
+                                sx={
+                                    {
+                                        width: this.props.isMobile ? '55vw' : '60ch',
+                                        my: this.props.isMobile ? 1 : 2
+                                    }
+                                }
+                                label={"Checkbox " + (index + 1)}
+                                key={"checkbox-" + index}
+                                // margin="normal"
+                                value={item}
+                                onChange={this.props.handleChange}
+                            />
 
-                        <ButtonGroup size="large" aria-label="large button group" sx={{ m: 2 }}>
-
-                            <IconButton
-                                color="primary" aria-label="moveup" component="span"
-                                key={"moveup-" + index}
-                                onClick={() => this.props.moveUp(index)}
+                            <ButtonGroup size="large" aria-label="button group"
+                                sx={{ mx: this.props.isMobile ? 0 : 2, my: this.props.isMobile ? 1 : 2 }}
                             >
-                                <ArrowUpwardIcon fontSize='large' />
-                            </IconButton>
 
-                            <IconButton
-                                color="primary" aria-label="movedown" component="span"
-                                key={"movedown-" + index}
-                                onClick={() => this.props.moveDown(index)}
-                            >
-                                <ArrowDownwardIcon fontSize='large' />
-                            </IconButton>
+                                <IconButton
+                                    color="primary" aria-label="moveup" component="span"
+                                    key={"moveup-" + index}
+                                    onClick={() => this.props.moveUp(index)}
+                                >
+                                    <ArrowUpwardIcon fontSize={this.props.isMobile ? 'medium' : 'large'} />
+                                </IconButton>
 
-                            <IconButton
-                                color="primary" aria-label="remove" component="span"
-                                key={"remove-" + index}
-                                onClick={() => this.props.removeItem(index)}
-                            >
-                                <RemoveCircleOutlineIcon fontSize='large' />
-                            </IconButton>
+                                <IconButton
+                                    color="primary" aria-label="movedown" component="span"
+                                    key={"movedown-" + index}
+                                    onClick={() => this.props.moveDown(index)}
+                                >
+                                    <ArrowDownwardIcon fontSize={this.props.isMobile ? 'medium' : 'large'} />
+                                </IconButton>
 
-                        </ButtonGroup>
-                    </>
+                                <IconButton
+                                    color="primary" aria-label="remove" component="span"
+                                    key={"remove-" + index}
+                                    onClick={() => this.props.removeItem(index)}
+                                >
+                                    <RemoveCircleOutlineIcon fontSize={this.props.isMobile ? 'medium' : 'large'} />
+                                </IconButton>
 
-                )
-                )}
+                            </ButtonGroup>
+                        </>
 
-                <Button variant="outlined" size="large" sx={{ my: 2 }}
+                    )
+                    )
+                }
+
+                <Button variant="outlined" size={this.props.isMobile ? 'medium' : 'large'} sx={{ my: 2 }}
                     onClick={this.props.newItem}
                 >
                     <AddIcon />
                 </Button>
-            </div>
+
+            </Box >
         );
     }
 }

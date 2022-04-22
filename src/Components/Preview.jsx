@@ -5,7 +5,7 @@ class Preview extends Component {
     render() {
         return (
             <div>
-                <Box component="div" sx={{ border: '1px dashed grey' }}>
+                <Box component="div" sx={{ border: '1px dashed grey', my: 1 }}>
                     <Box component="h2" className="formheader" sx={{ m: 2, textAlign: 'center' }}>
                         {`${this.props.title} Apology Form`}
                     </Box>
@@ -22,6 +22,12 @@ class Preview extends Component {
                             />
                         }
 
+                        {
+                            !this.props.isFilePicked && (<div>
+                                (Please upload an image.)
+                            </div>)
+                        }
+
                         {/* <div style={{ display: "inline", height: "100%", padding: "auto" }}>
                             Apology Form
                         </div> */}
@@ -33,14 +39,19 @@ class Preview extends Component {
                         </h3>
                     </Box>
 
-                    <Grid container spacing={1} sx={{ m: 2 }}>
+                    <Grid container spacing={1} sx={{ m: this.props.isMobile ? 0 : 2 }}>
                         {
                             this.props.entries.map((item, index) => (
                                 <Grid item xs={6} key={"" + index}>
                                     <FormGroup>
                                         <FormControlLabel control={
-                                            <Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
-                                        } label={item} />
+                                            <Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: this.props.isMobile ? 20 : 28 } }} />
+                                        } label={(
+                                            <p style={{
+                                                fontSize: this.props.isMobile ? '13px' : 'unset',
+                                                margin: 0
+                                            }}> {item} </p>
+                                        )} />
                                     </FormGroup>
                                 </Grid>
                             ))

@@ -10,6 +10,7 @@ import Preview from './Preview';
 class Home extends Component {
 
     state = {
+        isMobile: window.innerWidth < 860,
         value: "1",
         title: "",
         entries: [
@@ -22,6 +23,22 @@ class Home extends Component {
         ],
         uploadedFile: null,
         isFilePicked: false
+    }
+
+    // Responsive
+
+    updateIsMobile = () => {
+        this.setState({
+            isMobile: window.innerWidth < 860
+        });
+    }
+
+    componentDidMount = () => {
+        window.addEventListener('resize', this.updateIsMobile);
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('resize', this.updateIsMobile);
     }
 
     handleTabChange = (event, value) => {
@@ -98,12 +115,17 @@ class Home extends Component {
             <div>
                 <React.Fragment>
                     <CssBaseline />
-                    <Container maxWidth="md">
-                        <Box sx={{ bgcolor: '#F7F9FB', minHeight: '100vh', padding: 2 }}>
+                    <Container
+                        // maxWidth="md"
+                        sx={{ m: 0, padding: 0 }}
+                    >
+                        <Box sx={{ bgcolor: '#F7F9FB', minHeight: '100vh', padding: this.state.isMobile ? 1 : 2 }}>
                             <Typography variant="h5" gutterBottom component="div">
                                 Apology Form Meme Generator
                             </Typography>
-                            <TabContext value={this.state.value}>
+                            <TabContext
+                                value={this.state.value}
+                            >
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <TabList onChange={this.handleTabChange} aria-label="lab API tabs example">
                                         <Tab label="Edit" value="1" />
@@ -113,6 +135,7 @@ class Home extends Component {
                                 <TabPanel value="1">
 
                                     <Edit
+                                        isMobile={this.state.isMobile}
                                         title={this.state.title}
                                         titleChange={this.titleChange}
                                         entries={this.state.entries}
@@ -130,6 +153,7 @@ class Home extends Component {
                                 <TabPanel value="2">
 
                                     <Preview
+                                        isMobile={this.state.isMobile}
                                         title={this.state.title}
                                         uploadedFile={this.state.uploadedFile}
                                         isFilePicked={this.state.isFilePicked}
